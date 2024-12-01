@@ -4,9 +4,12 @@ require('dotenv').config()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const { connectToDB } = require('./db')
+const { connectToDB, getDB } = require('./db')
 
 const MoviesRoute = require('./routes/MoviesRoute')
+const SeriesRoute = require('./routes/SeriesRoute')
+const NewsRoute = require('./routes/NewsRoute')
+const GenreRoute = require('./routes/GenreRoute')
 
 const app = express()
 
@@ -14,7 +17,16 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/movies', MoviesRoute)
+app.use((req, res, next) => {
+    req.db = getDB();
+    next();
+});
+
+app.use('/', MoviesRoute)
+app.use('/', SeriesRoute)
+app.use('/', NewsRoute)
+app.use('/', GenreRoute)
+
 
 
 const port = process.env.PORT || 3000

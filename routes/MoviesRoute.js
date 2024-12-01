@@ -4,7 +4,6 @@ const router = express.Router();
 const MoviesService = require('../services/MoviesService');
 
 router.get('/movies', async (req, res) => {
-
     try {
         const MoviesData = await MoviesService.getMovies();
         return res.send(MoviesData);
@@ -15,12 +14,12 @@ router.get('/movies', async (req, res) => {
 });
 
 router.get('/movies/:id', async (req, res) => {
-    const movieId = req.params.id;
+    const movieId = req.body.id;
     try {
         const MoviesData = await MoviesService.getMovieById(movieId);
         return res.send(MoviesData);
     }catch {
-        return res.status(500).send({ error });
+        return res.status(500).send('error');
     }
 
 });
@@ -36,7 +35,7 @@ router.post('/movies', async (req, res) => {
 
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/movies/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const MoviesData = await MoviesService.updateMovie(id, req.body);
@@ -47,7 +46,7 @@ router.put('/:id', async (req, res) => {
 
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/movies/:id', async (req, res) => {
     const movieId = req.params.id;
     try {
         const MoviesData = await MoviesService.deleteMovie(movieId);

@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb')
 
 async function getMovies() {
     const db = getDB()
-    const movies = await db.collection('movies').find().sort().toArray()
+    const movies = await db.collection('movies').find().sort({ title: 1}).toArray()
     return movies
 }
 
@@ -25,7 +25,7 @@ async function updateMovie(id, movieData) {
 
 async function deleteMovie(id) {
     const db = getDB()
-    return await db.collection('movies').deleteOne({ _id: ObjectId.createFromHexString(id) })
+    return await db.collection('movies').deleteOne({ _id: ObjectId.createFromHexString(id)})
 }
 
 module.exports = {
